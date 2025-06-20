@@ -72,7 +72,7 @@ public class Main {
                     System.out.println("Enter title: ");
                     String title = scanner.nextLine();
                     if (title.isEmpty()) {
-                        System.out.println("Title can't be empty. It will be set to TITLE by default.");
+                        System.out.println("Title can't be empty. It will be set to 'Random Title' by default.");
                         title = "Random Title";
                     }
                     System.out.println("Enter duration: ");
