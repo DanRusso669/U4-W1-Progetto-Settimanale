@@ -5,7 +5,6 @@ import progettoSettimanale.entities.Image;
 import progettoSettimanale.entities.MultimediaElement;
 import progettoSettimanale.entities.Video;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -46,10 +45,27 @@ public class Main {
 
         MultimediaElement[] list = new MultimediaElement[5];
 
+        ElementType element;
+
+        boolean isError = false;
+
         for (int i = 0; i < list.length; i++) {
 
             System.out.println("Enter AUDIO, VIDEO or IMAGE.");
-            ElementType element = ElementType.valueOf(scanner.nextLine());
+            String type = scanner.nextLine().toUpperCase();
+
+            if (!type.equals("AUDIO") && !type.equals("VIDEO") && !type.equals("IMAGE")) {
+                System.out.println("Invalid input, try restart the program.");
+                isError = true;
+                break;
+            } else {
+
+                element = ElementType.valueOf(type);
+            }
+
+
+            // https://www.geeksforgeeks.org/java/java-string-valueof/
+
 
             switch (element) {
                 case AUDIO: {
@@ -66,10 +82,29 @@ public class Main {
                 case VIDEO: {
                     System.out.println("Enter title: ");
                     String title = scanner.nextLine();
+                    if (title.isEmpty()) {
+                        System.out.println("Title can't be empty. It will be set to TITLE by default.");
+                        title = "TITOLO";
+                    }
                     System.out.println("Enter duration: ");
                     int duration = Integer.parseInt(scanner.nextLine());
+                    if (duration > 10) {
+                        System.out.println("The maximum duration is 10 and will be set by default.");
+                        duration = 10;
+                    } else if (duration <= 0) {
+                        System.out.println("Duration can't be lower than 1. Rerun the program.");
+                        isError = true;
+                        break;
+                    }
                     System.out.println("Enter volume: ");
                     int volume = Integer.parseInt(scanner.nextLine());
+                    if (volume > 10) {
+                        System.out.println("The maximum volume is 10 and will be set by default to 5.");
+                        volume = 5;
+                    } else if (volume < 0) {
+                        System.out.println("Duration can't be lower than 0 and will be set by default to 5.");
+                        volume = 5;
+                    }
                     System.out.println("Enter brightness: ");
                     int brightness = Integer.parseInt(scanner.nextLine());
                     Video video = new Video(title, duration, volume, brightness);
@@ -91,19 +126,35 @@ public class Main {
             }
         }
 
-        System.out.println(Arrays.toString(list));
+        // System.out.println(Arrays.toString(list));
 
-        while (true) {
-            System.out.println("Enter 1 - 5 to run the elements. Enter 0 to exit.");
-            int enter = Integer.parseInt(scanner.nextLine());
+        if (!isError) {
 
-            if (list[enter] instanceof Audio) {
-                ((Audio) list[enter]).play(); // <---- intelliJ me lo mette automaticamente così quando scrivo --> list[enter].play()
-            } else if (list[enter] instanceof Video) {
-                ((Video) list[enter]).play(); // <---- intelliJ me lo mette automaticamente così quando scrivo --> list[enter].play()
+            while (true) {
+                System.out.println("Enter 1 - 5 to run the elements. Enter 0 to exit.");
+                int enter = Integer.parseInt(scanner.nextLine());
+
+                if (enter == 0) {
+                    break;
+                }
+
+                if (enter < 0 || enter > 5) {
+                    System.out.println("Invalid input.");
+                    continue;
+                }
+
+                if (list[enter - 1] instanceof Audio) {
+                    ((Audio) list[enter - 1]).play(); // <---- intelliJ me lo mette automaticamente così quando scrivo --> list[enter].play()
+                } else if (list[enter - 1] instanceof Video) {
+                    ((Video) list[enter - 1]).play(); // <---- intelliJ me lo mette automaticamente così quando scrivo --> list[enter].play()
+                } else if (list[enter - 1] instanceof Image) {
+                    ((Image) list[enter - 1]).show();
+                }
+
             }
-
         }
+
+
     }
 
 
