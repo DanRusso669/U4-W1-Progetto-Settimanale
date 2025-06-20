@@ -55,7 +55,7 @@ public class Main {
             String type = scanner.nextLine().toUpperCase();
 
             if (!type.equals("AUDIO") && !type.equals("VIDEO") && !type.equals("IMAGE")) {
-                System.out.println("Invalid input, try restart the program.");
+                System.out.println("Invalid input, restart the program.");
                 isError = true;
                 break;
             } else {
@@ -71,12 +71,32 @@ public class Main {
                 case AUDIO: {
                     System.out.println("Enter title: ");
                     String title = scanner.nextLine();
+                    if (title.isEmpty()) {
+                        System.out.println("Title can't be empty. It will be set to TITLE by default.");
+                        title = "Random Title";
+                    }
                     System.out.println("Enter duration: ");
                     int duration = Integer.parseInt(scanner.nextLine());
+                    if (duration > 10) {
+                        System.out.println("The maximum duration is 10.");
+                        duration = 10;
+                    } else if (duration <= 0) {
+                        System.out.println("Duration can't be lower than 1. Rerun the program.");
+                        isError = true;
+                        break;
+                    }
                     System.out.println("Enter volume: ");
                     int volume = Integer.parseInt(scanner.nextLine());
+                    if (volume > 10) {
+                        System.out.println("The maximum volume is 10 and will be set by default to 5.");
+                        volume = 5;
+                    } else if (volume < 0) {
+                        System.out.println("Volume can't be lower than 0 and will be set by default to 5.");
+                        volume = 5;
+                    }
                     Audio audio = new Audio(title, duration, volume);
                     list[i] = audio;
+                    System.out.println("--------------------------------------");
                 }
                 break;
                 case VIDEO: {
@@ -84,7 +104,7 @@ public class Main {
                     String title = scanner.nextLine();
                     if (title.isEmpty()) {
                         System.out.println("Title can't be empty. It will be set to TITLE by default.");
-                        title = "TITOLO";
+                        title = "Random Title";
                     }
                     System.out.println("Enter duration: ");
                     int duration = Integer.parseInt(scanner.nextLine());
@@ -102,28 +122,50 @@ public class Main {
                         System.out.println("The maximum volume is 10 and will be set by default to 5.");
                         volume = 5;
                     } else if (volume < 0) {
-                        System.out.println("Duration can't be lower than 0 and will be set by default to 5.");
+                        System.out.println("Volume can't be lower than 0 and will be set by default to 5.");
                         volume = 5;
                     }
                     System.out.println("Enter brightness: ");
                     int brightness = Integer.parseInt(scanner.nextLine());
+                    if (brightness > 10) {
+                        System.out.println("The maximum brightness is 10 and will be set by default to 5.");
+                        brightness = 5;
+                    } else if (brightness < 0) {
+                        System.out.println("Brightness can't be lower than 0 and will be set by default to 5.");
+                        brightness = 5;
+                    }
                     Video video = new Video(title, duration, volume, brightness);
                     list[i] = video;
+                    System.out.println("--------------------------------------");
                 }
                 break;
                 case IMAGE: {
                     System.out.println("Enter title: ");
                     String title = scanner.nextLine();
+                    if (title.isEmpty()) {
+                        System.out.println("Title can't be empty. It will be set to TITLE by default.");
+                        title = "Random Title";
+                    }
                     System.out.println("Enter brightness: ");
                     int brightness = Integer.parseInt(scanner.nextLine());
+                    if (brightness > 10) {
+                        System.out.println("The maximum brightness is 10 and will be set by default to 5.");
+                        brightness = 5;
+                    } else if (brightness < 0) {
+                        System.out.println("Brightness can't be lower than 0 and will be set by default to 5.");
+                        brightness = 5;
+                    }
                     Image image = new Image(title, brightness);
                     list[i] = image;
+                    System.out.println("--------------------------------------");
                 }
                 break;
                 default: {
                     System.out.println("Invalid type. Restarting...");
                 }
             }
+            if (isError) break;
+
         }
 
         // System.out.println(Arrays.toString(list));
