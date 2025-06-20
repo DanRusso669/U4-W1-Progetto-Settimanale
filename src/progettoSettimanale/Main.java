@@ -4,6 +4,7 @@ import progettoSettimanale.entities.Audio;
 import progettoSettimanale.entities.Image;
 import progettoSettimanale.entities.MultimediaElement;
 import progettoSettimanale.entities.Video;
+import progettoSettimanale.enums.ElementType;
 
 import java.util.Scanner;
 
@@ -81,9 +82,8 @@ public class Main {
                         System.out.println("The maximum duration is 10.");
                         duration = 10;
                     } else if (duration <= 0) {
-                        System.out.println("Duration can't be lower than 1. Rerun the program.");
-                        isError = true;
-                        break;
+                        System.out.println("Duration can't be lower than 1. Set by default to 1.");
+                        duration = 1;
                     }
                     System.out.println("Enter volume: ");
                     int volume = Integer.parseInt(scanner.nextLine());
